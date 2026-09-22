@@ -98,8 +98,16 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Compare password method
+// Compare password method (supports bcrypt hashes and unhashed fallback entries)
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) return false;
+  if (
+    !this.password.startsWith('$2a$') &&
+    !this.password.startsWith('$2b$') &&
+    !this.password.startsWith('$2y$')
+  ) {
+    return enteredPassword === this.password;
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

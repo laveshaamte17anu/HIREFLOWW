@@ -62,26 +62,47 @@ const login = async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const user = await User.findOne({ email: cleanEmail }).select('+password');
+    const cleanPassword = typeof password === 'string' ? password.trim() : password;
 
-    if (user && (await user.matchPassword(password))) {
-      res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        phone: user.phone,
-        location: user.location,
-        education: user.education,
-        skills: user.skills,
-        linkedin: user.linkedin,
-        github: user.github,
-        portfolio: user.portfolio,
-        token: generateToken(user._id),
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid email or password' });
+    // Case-insensitive exact email match
+    const user = await User.findOne({
+      email: { $regex: new RegExp(`^${cleanEmail.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}$`, 'i') },
+    }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
+
+    const isMatch = await user.matchPassword(cleanPassword);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // Auto-hash plain text passwords on successful login
+    if (
+      user.password &&
+      !user.password.startsWith('$2a$') &&
+      !user.password.startsWith('$2b$') &&
+      !user.password.startsWith('$2y$')
+    ) {
+      user.password = cleanPassword;
+      await user.save();
+    }
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phone: user.phone || '',
+      location: user.location || '',
+      education: user.education || '',
+      skills: user.skills || [],
+      linkedin: user.linkedin || '',
+      github: user.github || '',
+      portfolio: user.portfolio || '',
+      token: generateToken(user._id),
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
