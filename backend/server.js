@@ -11,6 +11,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
@@ -22,51 +23,86 @@ connectDB();
 
 const app = express();
 
-// Allowed origins helper for CORS
+/*
+|--------------------------------------------------------------------------
+| CORS Configuration
+|--------------------------------------------------------------------------
+*/
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
   'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
-].filter(Boolean);
+  'https://hirefloww-portal.netlify.app',
+];
 
-// Middleware
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow server-to-server / mobile / Postman calls with no origin header
-      if (!origin) return callback(null, true);
-
-      const sanitizedOrigin = origin.replace(/\/$/, '');
-      const configuredOrigins = allowedOrigins.flatMap((url) =>
-        url.split(',').map((u) => u.trim().replace(/\/$/, ''))
-      );
-
-      if (configuredOrigins.includes(sanitizedOrigin) || configuredOrigins.includes('*')) {
+      // Allow requests without an Origin header
+      // (Postman, server-to-server requests, etc.)
+      if (!origin) {
         return callback(null, true);
       }
-      return callback(null, true);
+
+      const sanitizedOrigin = origin.replace(/\/$/, '');
+
+      if (allowedOrigins.includes(sanitizedOrigin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'));
     },
+
     credentials: true,
   })
 );
+
+/*
+|--------------------------------------------------------------------------
+| Body Parsers
+|--------------------------------------------------------------------------
+*/
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploaded resumes statically
+/*
+|--------------------------------------------------------------------------
+| Static Files
+|--------------------------------------------------------------------------
+*/
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
 app.use('/api/auth', require('./routes/authRoutes'));
+
 app.use('/api/jobs', require('./routes/jobRoutes'));
+
 app.use('/api/applications', require('./routes/applicationRoutes'));
+
 app.use('/api/users', require('./routes/userRoutes'));
+
 app.use('/api/saved-jobs', require('./routes/savedJobRoutes'));
+
 app.use('/api/notifications', require('./routes/notificationRoutes'));
+
 app.use('/api/interviews', require('./routes/interviewRoutes'));
+
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
-// Health check endpoint
+/*
+|--------------------------------------------------------------------------
+| Health Check
+|--------------------------------------------------------------------------
+*/
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -75,12 +111,25 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
+/*
+|--------------------------------------------------------------------------
+| Error Handling
+|--------------------------------------------------------------------------
+*/
+
 app.use(notFound);
 app.use(errorHandler);
+
+/*
+|--------------------------------------------------------------------------
+| Start Server
+|--------------------------------------------------------------------------
+*/
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  console.log(
+    `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
+  );
 });
