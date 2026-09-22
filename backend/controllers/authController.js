@@ -61,11 +61,9 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
-    
-    console.log('LOGIN EMAIL:', email.toLowerCase());
-console.log('USER FOUND:', !!user);
-console.log('USER DB:', User.db.name);
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail }).select('+password');
+
     if (user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,

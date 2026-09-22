@@ -32,7 +32,9 @@ const seedAdmin = async () => {
       process.exit(1);
     }
 
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      dbName: process.env.DB_NAME || 'HireFlow',
+    });
 
     console.log('MongoDB Connected for Admin Seeding...');
     console.log(`Checking admin account: ${adminEmail}`);
