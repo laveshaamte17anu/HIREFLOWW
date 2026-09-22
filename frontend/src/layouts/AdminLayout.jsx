@@ -1,0 +1,169 @@
+import React, { useState, useEffect } from 'react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Briefcase,
+  Users,
+  Calendar,
+  BarChart3,
+  Bell,
+  User,
+  PlusCircle,
+  LogOut,
+  ShieldCheck,
+  Menu,
+  X,
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import api from '../services/api';
+
+const AdminLayout = () => {
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchNotificationCount = async () => {
+      try {
+        const res = await api.get('/notifications');
+        setUnreadNotifications(res.data.unreadCount || 0);
+      } catch (error) {
+        console.error('Failed to fetch admin unread count:', error);
+      }
+    };
+    fetchNotificationCount();
+  }, [location.pathname]);
+
+  const navItems = [
+    { label: 'Overview', path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'My Jobs', path: '/admin/jobs', icon: Briefcase },
+    { label: 'Post New Job', path: '/admin/jobs/create', icon: PlusCircle },
+    { label: 'Applicants Pipeline', path: '/admin/applications', icon: Users },
+    { label: 'Interviews', path: '/admin/interviews', icon: Calendar },
+    { label: 'Recruitment Analytics', path: '/admin/analytics', icon: BarChart3 },
+    { label: 'Notifications', path: '/admin/notifications', icon: Bell, badge: unreadNotifications },
+    { label: 'Admin Profile', path: '/admin/profile', icon: User },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col lg:flex-row bg-slate-50">
+      {/* Mobile Top Header */}
+      <header className="lg:hidden bg-slate-900 text-white border-b border-slate-800 h-16 px-4 flex items-center justify-between sticky top-0 z-40">
+        <Link to="/" className="flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+            <Briefcase className="w-4 h-4" />
+          </div>
+          <span className="text-lg font-extrabold tracking-tight text-white">
+            HireFlow <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Admin</span>
+          </span>
+        </Link>
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800"
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </header>
+
+      {/* Mobile Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 lg:hidden"
+        />
+      )}
+
+      {/* Admin Sidebar */}
+      <aside
+        className={`w-64 bg-slate-900 text-slate-300 flex flex-col fixed inset-y-0 z-50 shadow-xl transform transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="h-16 flex items-center px-6 border-b border-slate-800">
+          <Link to="/" className="flex items-center space-x-2.5">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+              <Briefcase className="w-5 h-5" />
+            </div>
+            <span className="text-xl font-extrabold tracking-tight text-white">
+              HireFlow <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Admin</span>
+            </span>
+          </Link>
+        </div>
+
+        <div className="p-4 border-b border-slate-800 bg-slate-950/40">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-inner">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div className="truncate">
+              <p className="text-sm font-bold text-white truncate">{user?.name || 'Recruiter Admin'}</p>
+              <p className="text-xs text-slate-400 truncate">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+
+        <nav className="flex-grow p-4 space-y-1 overflow-y-auto">
+          <p className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            Recruiter Workspace
+          </p>
+
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  isActive
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{item.label}</span>
+                </div>
+                {item.badge > 0 && (
+                  <span
+                    className={`px-2 py-0.5 text-xs font-bold rounded-full ${
+                      isActive ? 'bg-white text-blue-600' : 'bg-rose-500 text-white'
+                    }`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="p-4 border-t border-slate-800">
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              logout();
+              navigate('/');
+            }}
+            className="flex items-center space-x-3 w-full px-3.5 py-2.5 text-sm font-semibold text-rose-400 hover:bg-rose-950/40 rounded-xl transition-all"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Admin Workspace Content */}
+      <div className="lg:pl-64 flex-grow flex flex-col min-h-screen">
+        <main className="flex-grow p-4 sm:p-6 lg:p-8">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default AdminLayout;
