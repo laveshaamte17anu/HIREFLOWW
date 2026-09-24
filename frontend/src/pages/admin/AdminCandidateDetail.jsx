@@ -2,16 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft,
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  GraduationCap,
-  Briefcase,
   FileText,
   Calendar,
-  CheckCircle,
-  XCircle,
   Linkedin,
   Github,
   Globe,
@@ -103,17 +95,17 @@ const AdminCandidateDetail = () => {
   if (loading) {
     return (
       <div className="space-y-6 max-w-4xl mx-auto">
-        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-lg"></div>
-        <div className="h-64 bg-slate-200 animate-pulse rounded-3xl"></div>
+        <div className="h-8 w-48 bg-slate-900 animate-pulse rounded-lg"></div>
+        <div className="h-64 bg-slate-900 animate-pulse rounded-3xl border border-slate-800"></div>
       </div>
     );
   }
 
   if (!app) {
     return (
-      <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-slate-700 font-bold text-base">Application Not Found</p>
-        <Link to="/admin/applications" className="text-blue-600 font-bold text-xs mt-2 inline-block">
+      <div className="max-w-4xl mx-auto text-center py-16 space-y-2">
+        <p className="text-white font-bold text-base">Application Not Found</p>
+        <Link to="/admin/applications" className="text-blue-400 font-bold text-xs inline-block hover:underline">
           Back to Applicant Pipeline
         </Link>
       </div>
@@ -121,27 +113,27 @@ const AdminCandidateDetail = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8 text-slate-100 font-sans">
       <Link
         to="/admin/applications"
-        className="inline-flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-blue-600"
+        className="inline-flex items-center space-x-2 text-xs font-bold text-slate-400 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Applicant Pipeline</span>
       </Link>
 
-      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
+      <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
           <div className="space-y-1">
             <div className="flex items-center space-x-3">
               <StatusBadge status={app.status} />
               <MatchScoreBadge score={app.matchScore || 50} />
             </div>
 
-            <h1 className="text-3xl font-extrabold text-slate-900 mt-2">{app.fullName}</h1>
-            <p className="text-xs text-slate-500">
-              Applied for <strong className="text-slate-900">{app.jobId?.title}</strong> on{' '}
+            <h1 className="text-3xl font-black text-white mt-2">{app.fullName}</h1>
+            <p className="text-xs text-slate-400">
+              Applied for <strong className="text-white">{app.jobId?.title}</strong> on{' '}
               {new Date(app.createdAt).toLocaleDateString()}
             </p>
           </div>
@@ -150,14 +142,14 @@ const AdminCandidateDetail = () => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => handleStatusChange('Shortlisted')}
-              className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs rounded-xl"
+              className="px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 font-bold text-xs rounded-xl border border-indigo-500/20 cursor-pointer"
             >
-              Shortlist Candidate
+              Shortlist
             </button>
 
             <button
               onClick={() => setShowInterviewModal(true)}
-              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-sm flex items-center space-x-1.5"
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md flex items-center space-x-1.5 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Schedule Interview</span>
@@ -165,14 +157,14 @@ const AdminCandidateDetail = () => {
 
             <button
               onClick={() => handleStatusChange('Selected')}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer"
             >
               Select Candidate
             </button>
 
             <button
               onClick={() => handleStatusChange('Rejected')}
-              className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl"
+              className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-xs rounded-xl border border-rose-500/20 cursor-pointer"
             >
               Reject
             </button>
@@ -181,35 +173,35 @@ const AdminCandidateDetail = () => {
 
         {/* Rule-Based Match Breakdown Box */}
         {app.matchBreakdown && (
-          <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50/50 rounded-2xl border border-blue-200/80 space-y-3">
-            <h2 className="text-sm font-bold text-blue-900 flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-blue-600" />
+          <div className="p-6 bg-slate-950 rounded-2xl border border-blue-500/30 space-y-3">
+            <h2 className="text-sm font-bold text-white flex items-center space-x-2">
+              <Sparkles className="w-4 h-4 text-blue-400" />
               <span>Rule-Based Match Score Breakdown ({app.matchScore}%)</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
               <div>
-                <span className="font-semibold text-slate-500 block">Matched Skills</span>
-                <span className="font-bold text-slate-900">
+                <span className="font-semibold text-slate-400 block">Matched Skills</span>
+                <span className="font-bold text-emerald-400">
                   {app.matchBreakdown.matchedSkills?.length > 0
                     ? app.matchBreakdown.matchedSkills.join(', ')
                     : 'General Overlap'}
                 </span>
               </div>
               <div>
-                <span className="font-semibold text-slate-500 block">Missing Skills</span>
-                <span className="font-bold text-slate-600">
+                <span className="font-semibold text-slate-400 block">Missing Skills</span>
+                <span className="font-bold text-slate-300">
                   {app.matchBreakdown.missingSkills?.length > 0
                     ? app.matchBreakdown.missingSkills.join(', ')
                     : 'None'}
                 </span>
               </div>
               <div>
-                <span className="font-semibold text-slate-500 block">Experience Match</span>
-                <span className="font-bold text-slate-900">{app.matchBreakdown.experienceMatch}</span>
+                <span className="font-semibold text-slate-400 block">Experience Match</span>
+                <span className="font-bold text-white">{app.matchBreakdown.experienceMatch}</span>
               </div>
               <div>
-                <span className="font-semibold text-slate-500 block">Education Match</span>
-                <span className="font-bold text-slate-900">{app.matchBreakdown.educationMatch}</span>
+                <span className="font-semibold text-slate-400 block">Education Match</span>
+                <span className="font-bold text-white">{app.matchBreakdown.educationMatch}</span>
               </div>
             </div>
           </div>
@@ -217,48 +209,48 @@ const AdminCandidateDetail = () => {
 
         {/* Scheduled Interview Banner if present */}
         {app.interview && (
-          <div className="p-6 bg-amber-50 rounded-2xl border border-amber-200 text-xs space-y-2">
-            <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
-              <Calendar className="w-4 h-4 text-amber-600" />
+          <div className="p-6 bg-slate-950 rounded-2xl border border-amber-500/30 text-xs space-y-2">
+            <h3 className="font-bold text-white text-sm flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-amber-400" />
               <span>Scheduled Interview Details</span>
             </h3>
-            <p className="text-slate-700">
-              📅 Date: <strong>{app.interview.date}</strong> | ⏰ Time: <strong>{app.interview.time}</strong> | Format: <strong>{app.interview.type}</strong>
+            <p className="text-slate-300">
+              📅 Date: <strong className="text-white">{app.interview.date}</strong> | ⏰ Time: <strong className="text-white">{app.interview.time}</strong> | Format: <strong className="text-white">{app.interview.type}</strong>
             </p>
             {app.interview.meetingLink && (
-              <p className="text-blue-600 font-bold underline">Link: {app.interview.meetingLink}</p>
+              <p className="text-blue-400 font-bold underline">Link: {app.interview.meetingLink}</p>
             )}
           </div>
         )}
 
         {/* Candidate Information Details */}
         <div className="space-y-4">
-          <h2 className="text-base font-bold text-slate-900">Applicant Dossier & Contact</h2>
+          <h2 className="text-base font-bold text-white">Applicant Dossier & Contact</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950 p-6 rounded-2xl border border-slate-800 text-xs">
             <div>
               <span className="text-slate-400 font-semibold block">Email Address</span>
-              <span className="font-bold text-slate-900 text-sm">{app.email}</span>
+              <span className="font-bold text-white text-sm">{app.email}</span>
             </div>
             <div>
               <span className="text-slate-400 font-semibold block">Phone Number</span>
-              <span className="font-bold text-slate-900 text-sm">{app.phone}</span>
+              <span className="font-bold text-white text-sm">{app.phone}</span>
             </div>
             <div>
               <span className="text-slate-400 font-semibold block">Highest Education</span>
-              <span className="font-bold text-slate-900 text-sm">{app.education}</span>
+              <span className="font-bold text-white text-sm">{app.education}</span>
             </div>
             <div>
               <span className="text-slate-400 font-semibold block">Experience Level</span>
-              <span className="font-bold text-slate-900 text-sm">{app.experience}</span>
+              <span className="font-bold text-white text-sm">{app.experience}</span>
             </div>
             <div>
               <span className="text-slate-400 font-semibold block">Location</span>
-              <span className="font-bold text-slate-900 text-sm">{app.location || 'N/A'}</span>
+              <span className="font-bold text-white text-sm">{app.location || 'N/A'}</span>
             </div>
             <div>
               <span className="text-slate-400 font-semibold block">Expected Salary / Notice</span>
-              <span className="font-bold text-slate-900 text-sm">
+              <span className="font-bold text-white text-sm">
                 {app.expectedSalary || 'N/A'} • {app.noticePeriod || 'N/A'}
               </span>
             </div>
@@ -267,10 +259,10 @@ const AdminCandidateDetail = () => {
 
         {/* Candidate Skills */}
         <div className="space-y-2">
-          <h2 className="text-base font-bold text-slate-900">Candidate Skills</h2>
+          <h2 className="text-base font-bold text-white">Candidate Skills</h2>
           <div className="flex flex-wrap gap-2">
             {app.skills?.map((skill, idx) => (
-              <span key={idx} className="bg-slate-100 text-slate-800 font-bold text-xs px-3 py-1 rounded-lg">
+              <span key={idx} className="bg-slate-950 text-slate-200 border border-slate-800 font-bold text-xs px-3 py-1 rounded-lg">
                 {skill}
               </span>
             ))}
@@ -278,15 +270,15 @@ const AdminCandidateDetail = () => {
         </div>
 
         {/* Links & Resume File */}
-        <div className="space-y-4 pt-4 border-t border-slate-100 text-xs">
-          <h2 className="text-base font-bold text-slate-900">Uploaded Resume & Profiles</h2>
+        <div className="space-y-4 pt-4 border-t border-slate-800 text-xs">
+          <h2 className="text-base font-bold text-white">Uploaded Resume & Profiles</h2>
           <div className="flex flex-wrap gap-4 items-center">
             {app.resume && (
               <a
                 href={getResumeUrl(app.resume)}
                 target="_blank"
                 rel="noreferrer"
-                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm flex items-center space-x-2"
+                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md flex items-center space-x-2"
               >
                 <FileText className="w-4 h-4" />
                 <span>View / Download Resume PDF</span>
@@ -298,9 +290,9 @@ const AdminCandidateDetail = () => {
                 href={app.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-200 flex items-center space-x-1.5"
+                className="px-4 py-2 bg-slate-950 text-slate-300 font-bold text-xs rounded-xl border border-slate-800 hover:bg-slate-800 flex items-center space-x-1.5"
               >
-                <Linkedin className="w-4 h-4 text-blue-600" />
+                <Linkedin className="w-4 h-4 text-blue-400" />
                 <span>LinkedIn</span>
               </a>
             )}
@@ -310,9 +302,9 @@ const AdminCandidateDetail = () => {
                 href={app.github}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-200 flex items-center space-x-1.5"
+                className="px-4 py-2 bg-slate-950 text-slate-300 font-bold text-xs rounded-xl border border-slate-800 hover:bg-slate-800 flex items-center space-x-1.5"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-4 h-4 text-slate-300" />
                 <span>GitHub</span>
               </a>
             )}
@@ -322,9 +314,9 @@ const AdminCandidateDetail = () => {
                 href={app.portfolio}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-200 flex items-center space-x-1.5"
+                className="px-4 py-2 bg-slate-950 text-slate-300 font-bold text-xs rounded-xl border border-slate-800 hover:bg-slate-800 flex items-center space-x-1.5"
               >
-                <Globe className="w-4 h-4 text-emerald-600" />
+                <Globe className="w-4 h-4 text-emerald-400" />
                 <span>Portfolio</span>
               </a>
             )}
@@ -334,45 +326,45 @@ const AdminCandidateDetail = () => {
 
       {/* Schedule Interview Modal */}
       {showInterviewModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-6">
-            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-              <h3 className="text-lg font-bold text-slate-900">Schedule Interview</h3>
-              <button onClick={() => setShowInterviewModal(false)} className="text-slate-400 hover:text-slate-600 font-bold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-slate-900 rounded-3xl border border-slate-800 max-w-md w-full p-6 shadow-2xl space-y-6">
+            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+              <h3 className="text-lg font-bold text-white">Schedule Interview</h3>
+              <button onClick={() => setShowInterviewModal(false)} className="text-slate-400 hover:text-white font-bold cursor-pointer">
                 ✕
               </button>
             </div>
 
             <form onSubmit={handleScheduleSubmit} className="space-y-4 text-xs font-medium">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Interview Date *</label>
+                <label className="block text-slate-300 font-bold mb-1">Interview Date *</label>
                 <input
                   type="date"
                   required
                   value={interviewDate}
                   onChange={(e) => setInterviewDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Interview Time *</label>
+                <label className="block text-slate-300 font-bold mb-1">Interview Time *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. 10:00 AM EST"
                   value={interviewTime}
                   onChange={(e) => setInterviewTime(e.target.value)}
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Interview Format</label>
+                <label className="block text-slate-300 font-bold mb-1">Interview Format</label>
                 <select
                   value={interviewType}
                   onChange={(e) => setInterviewType(e.target.value)}
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
                 >
                   <option value="Online">Online Video Call</option>
                   <option value="In-Person">In-Person</option>
@@ -382,53 +374,53 @@ const AdminCandidateDetail = () => {
 
               {interviewType === 'Online' && (
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Meeting Link (Google Meet / Zoom / Teams)</label>
+                  <label className="block text-slate-300 font-bold mb-1">Meeting Link (Google Meet / Zoom / Teams)</label>
                   <input
                     type="url"
                     placeholder="https://meet.google.com/..."
                     value={meetingLink}
                     onChange={(e) => setMeetingLink(e.target.value)}
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
                   />
                 </div>
               )}
 
               {interviewType === 'In-Person' && (
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Office Location</label>
+                  <label className="block text-slate-300 font-bold mb-1">Office Location</label>
                   <input
                     type="text"
                     placeholder="e.g. Suite 400, Floor 4, HQ Building"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Notes / Instructions for Candidate</label>
+                <label className="block text-slate-300 font-bold mb-1">Notes / Instructions for Candidate</label>
                 <textarea
                   rows="3"
                   placeholder="e.g. Please bring an updated copy of your portfolio..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white resize-none"
                 ></textarea>
               </div>
 
-              <div className="pt-4 flex justify-end space-x-3 border-t border-slate-100">
+              <div className="pt-4 flex justify-end space-x-3 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => setShowInterviewModal(false)}
-                  className="px-4 py-2 font-bold text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 font-bold text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={scheduling}
-                  className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5"
+                  className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   <span>{scheduling ? 'Scheduling...' : 'Confirm Schedule'}</span>

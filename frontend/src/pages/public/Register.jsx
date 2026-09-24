@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Briefcase, UserPlus, Mail, Lock, User, Phone, MapPin, GraduationCap, Code } from 'lucide-react';
+import { Briefcase, UserPlus, Mail, Lock, User, Phone, MapPin, GraduationCap, Code, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -41,52 +41,57 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 bg-slate-50">
-      <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl max-w-lg w-full space-y-6">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 bg-slate-950 text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="bg-slate-900/90 border border-slate-800 p-8 sm:p-10 rounded-3xl shadow-2xl max-w-lg w-full space-y-6 relative z-10 backdrop-blur-md">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30">
-            <UserPlus className="w-6 h-6" />
-          </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create Candidate Account</h1>
-          <p className="text-xs text-slate-500">Sign up to apply for jobs and track recruitment status.</p>
+          <Link to="/" className="inline-flex items-center space-x-2.5 justify-center mb-1 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+              <UserPlus className="w-5 h-5" />
+            </div>
+            <span className="text-2xl font-black text-white tracking-tight">HIREFLOWW</span>
+          </Link>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Create Candidate Account</h1>
+          <p className="text-xs text-slate-400">Sign up to apply for jobs and track recruitment status.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs font-medium">
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Full Name *</label>
+            <label className="block font-bold text-slate-300 mb-1">Full Name *</label>
             <div className="relative">
-              <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
               <input
                 type="text"
                 required
                 placeholder="Jane Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Email Address *</label>
+              <label className="block font-bold text-slate-300 mb-1">Email Address *</label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <input
                   type="email"
                   required
                   placeholder="jane@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Password *</label>
+              <label className="block font-bold text-slate-300 mb-1">Password *</label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <input
                   type="password"
                   required
@@ -94,7 +99,7 @@ const Register = () => {
                   placeholder="At least 6 chars"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
                 />
               </div>
             </div>
@@ -102,58 +107,58 @@ const Register = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Phone Number</label>
+              <label className="block font-bold text-slate-300 mb-1">Phone Number</label>
               <div className="relative">
-                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <input
                   type="text"
                   placeholder="+1 555 0199"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Location</label>
+              <label className="block font-bold text-slate-300 mb-1">Location</label>
               <div className="relative">
-                <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <MapPin className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                 <input
                   type="text"
-                  placeholder="San Francisco, CA"
+                  placeholder="New York, NY"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Highest Education</label>
+            <label className="block font-bold text-slate-300 mb-1">Highest Education</label>
             <div className="relative">
-              <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
               <input
                 type="text"
-                placeholder="Bachelor's in Software Engineering"
+                placeholder="Bachelor's in Computer Science"
                 value={education}
                 onChange={(e) => setEducation(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Key Skills (comma separated)</label>
+            <label className="block font-bold text-slate-300 mb-1">Key Skills (comma separated)</label>
             <div className="relative">
-              <Code className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Code className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
               <input
                 type="text"
                 placeholder="JavaScript, React, Node.js, Python"
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white placeholder:text-slate-500"
               />
             </div>
           </div>
@@ -161,15 +166,16 @@ const Register = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/30 transition-all"
+            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2"
           >
-            {submitting ? 'Creating Account...' : 'Register as Candidate'}
+            <span>{submitting ? 'Creating Account...' : 'Register Candidate Account'}</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <p className="text-center text-xs text-slate-500 border-t border-slate-100 pt-4">
+        <p className="text-center text-xs text-slate-400 border-t border-slate-800 pt-4">
           Already have an account?{' '}
-          <Link to="/login" className="font-bold text-blue-600 hover:underline">
+          <Link to="/login" className="font-bold text-blue-400 hover:text-blue-300 hover:underline">
             Sign In
           </Link>
         </p>

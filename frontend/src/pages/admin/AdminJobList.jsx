@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusCircle, Edit, Trash2, Eye, Users, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Eye, Users } from 'lucide-react';
 import api from '../../services/api';
 import StatusBadge from '../../components/common/StatusBadge';
 import ConfirmModal from '../../components/common/ConfirmModal';
@@ -63,24 +63,24 @@ const AdminJobList = () => {
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-lg"></div>
-        <div className="h-64 bg-slate-200 animate-pulse rounded-2xl"></div>
+      <div className="space-y-4 max-w-7xl mx-auto">
+        <div className="h-8 w-48 bg-slate-900 animate-pulse rounded-lg"></div>
+        <div className="h-64 bg-slate-900 animate-pulse rounded-3xl border border-slate-800"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto text-slate-100 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">My Created Job Postings</h1>
-          <p className="text-slate-500 text-xs mt-0.5">Manage job status, edit specifications, and inspect applicants.</p>
+          <h1 className="text-2xl font-black text-white tracking-tight">My Created Job Postings</h1>
+          <p className="text-slate-400 text-xs mt-0.5">Manage job status, edit specifications, and inspect applicants.</p>
         </div>
 
         <Link
           to="/admin/jobs/create"
-          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/30 transition-all flex items-center space-x-1.5"
+          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/30 transition-all flex items-center space-x-1.5"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Create New Job</span>
@@ -88,22 +88,22 @@ const AdminJobList = () => {
       </div>
 
       {jobs.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-3xl border border-slate-200">
-          <p className="text-slate-700 font-bold text-base">No Job Postings Found</p>
-          <p className="text-slate-400 text-xs mt-1">You haven't posted any jobs yet under this recruiter admin account.</p>
+        <div className="bg-slate-900 p-12 text-center rounded-3xl border border-slate-800 space-y-3">
+          <p className="text-white font-bold text-base">No Job Postings Found</p>
+          <p className="text-slate-400 text-xs">You haven't posted any jobs yet under this recruiter admin account.</p>
           <Link
             to="/admin/jobs/create"
-            className="mt-4 inline-block px-5 py-2.5 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+            className="inline-block px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition-all shadow-md"
           >
             Post First Job
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
+                <tr className="bg-slate-950 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
                   <th className="p-4">Job Title</th>
                   <th className="p-4">Company & Location</th>
                   <th className="p-4">Type</th>
@@ -113,23 +113,23 @@ const AdminJobList = () => {
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody className="divide-y divide-slate-800/80 font-medium text-slate-300">
                 {jobs.map((job) => (
-                  <tr key={job._id} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={job._id} className="hover:bg-slate-950/60 transition-colors">
                     <td className="p-4">
-                      <Link to={`/jobs/${job._id}`} className="font-bold text-slate-900 hover:text-blue-600 text-sm">
+                      <Link to={`/jobs/${job._id}`} className="font-bold text-white hover:text-blue-400 text-sm">
                         {job.title}
                       </Link>
-                      <p className="text-[10px] text-slate-400">Created: {new Date(job.createdAt).toLocaleDateString()}</p>
+                      <p className="text-[10px] text-slate-500">Created: {new Date(job.createdAt).toLocaleDateString()}</p>
                     </td>
 
                     <td className="p-4">
-                      <p className="font-bold text-slate-900">{job.companyName}</p>
-                      <p className="text-slate-500">{job.location}</p>
+                      <p className="font-bold text-white">{job.companyName}</p>
+                      <p className="text-slate-400">{job.location}</p>
                     </td>
 
                     <td className="p-4">
-                      <span className="bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-md font-semibold">
+                      <span className="bg-slate-950 text-slate-300 border border-slate-800 px-2.5 py-0.5 rounded-md font-semibold">
                         {job.jobType}
                       </span>
                     </td>
@@ -141,14 +141,14 @@ const AdminJobList = () => {
                     <td className="p-4">
                       <Link
                         to={`/admin/applications?jobId=${job._id}`}
-                        className="inline-flex items-center space-x-1 font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg hover:bg-blue-100"
+                        className="inline-flex items-center space-x-1 font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-lg hover:bg-blue-500/20"
                       >
                         <Users className="w-3.5 h-3.5" />
                         <span>{job.applicationsCount || 0}</span>
                       </Link>
                     </td>
 
-                    <td className="p-4 text-slate-600">
+                    <td className="p-4 text-slate-400">
                       {new Date(job.deadline).toLocaleDateString()}
                     </td>
 
@@ -156,28 +156,28 @@ const AdminJobList = () => {
                       <div className="flex items-center justify-end space-x-2">
                         <Link
                           to={`/jobs/${job._id}`}
-                          className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                          className="p-2 text-slate-400 hover:text-blue-400 transition-colors"
                           title="View Public Details"
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
                         <Link
                           to={`/admin/jobs/${job._id}/edit`}
-                          className="p-2 text-slate-400 hover:text-indigo-600 transition-colors"
+                          className="p-2 text-slate-400 hover:text-indigo-400 transition-colors"
                           title="Edit Job"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => handleStatusToggle(job._id, job.status)}
-                          className="px-2.5 py-1 text-[11px] font-bold border rounded-lg transition-colors bg-slate-50 hover:bg-slate-100"
+                          className="px-2.5 py-1 text-[11px] font-bold border border-slate-800 rounded-lg transition-colors bg-slate-950 hover:bg-slate-800 text-slate-300 cursor-pointer"
                           title="Toggle Status"
                         >
                           {job.status === 'Published' ? 'Close' : 'Publish'}
                         </button>
                         <button
                           onClick={() => confirmDeleteJob(job._id)}
-                          className="p-2 text-slate-400 hover:text-rose-600 transition-colors"
+                          className="p-2 text-slate-500 hover:text-rose-400 transition-colors cursor-pointer"
                           title="Delete Job"
                         >
                           <Trash2 className="w-4 h-4" />

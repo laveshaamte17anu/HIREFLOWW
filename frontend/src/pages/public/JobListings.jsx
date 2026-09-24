@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, MapPin, Building2, Briefcase, Filter, RefreshCw, ArrowRight, DollarSign, Calendar } from 'lucide-react';
+import { Search, MapPin, Building2, Briefcase, Filter, RefreshCw, ArrowRight, DollarSign, Calendar, ChevronRight, Layers } from 'lucide-react';
 import api from '../../services/api';
 
 const JobListings = () => {
@@ -63,70 +63,73 @@ const JobListings = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 text-slate-100 font-sans">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Browse Open Positions</h1>
-        <p className="text-slate-600 text-sm mt-1">Discover verified job openings published by recruiter admins.</p>
+      <div className="space-y-2">
+        <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Careers Portal</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Browse Open Positions</h1>
+        <p className="text-slate-400 text-sm max-w-2xl">
+          Discover verified job openings published by recruiter admins across top technology roles.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Sidebar */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs h-fit space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-            <h2 className="font-bold text-slate-900 text-base flex items-center space-x-2">
-              <Filter className="w-4 h-4 text-blue-600" />
+        <div className="bg-slate-900 p-6 rounded-3xl border border-slate-800 h-fit space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h2 className="font-bold text-white text-sm flex items-center space-x-2">
+              <Filter className="w-4 h-4 text-blue-400" />
               <span>Search Filters</span>
             </h2>
             <button
               onClick={handleClearFilters}
-              className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center space-x-1"
+              className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center space-x-1 cursor-pointer"
             >
               <RefreshCw className="w-3 h-3" />
               <span>Reset</span>
             </button>
           </div>
 
-          <form onSubmit={handleSearchSubmit} className="space-y-4 text-sm">
+          <form onSubmit={handleSearchSubmit} className="space-y-4 text-xs font-medium">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Keyword / Title</label>
+              <label className="block text-slate-300 mb-1">Keyword / Title</label>
               <input
                 type="text"
                 placeholder="e.g. React Developer"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Location</label>
+              <label className="block text-slate-300 mb-1">Location</label>
               <input
                 type="text"
-                placeholder="e.g. New York or Remote"
+                placeholder="e.g. Remote or New York"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Company</label>
+              <label className="block text-slate-300 mb-1">Company</label>
               <input
                 type="text"
                 placeholder="Company name..."
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Job Type</label>
+              <label className="block text-slate-300 mb-1">Job Type</label>
               <select
                 value={jobType}
                 onChange={(e) => setJobType(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-white"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               >
                 <option value="All">All Job Types</option>
                 <option value="Full-time">Full-time</option>
@@ -139,19 +142,19 @@ const JobListings = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Required Skill</label>
+              <label className="block text-slate-300 mb-1">Required Skill</label>
               <input
                 type="text"
                 placeholder="e.g. Node.js, Python"
                 value={skill}
                 onChange={(e) => setSkill(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-colors shadow-sm"
+              className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer"
             >
               Apply Filters
             </button>
@@ -160,16 +163,16 @@ const JobListings = () => {
 
         {/* Job Cards Stream */}
         <div className="lg:col-span-3 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200">
-            <span className="text-xs font-bold text-slate-600">
-              Showing <span className="text-blue-600">{jobs.length}</span> published jobs
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+            <span className="text-xs font-bold text-slate-300">
+              Showing <span className="text-blue-400 font-extrabold">{jobs.length}</span> published opportunities
             </span>
             <div className="flex items-center space-x-2 text-xs">
-              <span className="text-slate-500 font-semibold">Sort By:</span>
+              <span className="text-slate-400 font-semibold">Sort By:</span>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="px-3 py-1.5 border border-slate-200 rounded-lg outline-none font-semibold text-slate-700 bg-white"
+                className="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl outline-none font-semibold text-white text-xs"
               >
                 <option value="newest">Recently Posted</option>
                 <option value="oldest">Oldest First</option>
@@ -181,17 +184,17 @@ const JobListings = () => {
           {loading ? (
             <div className="space-y-4">
               {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-36 bg-slate-200 animate-pulse rounded-2xl"></div>
+                <div key={n} className="h-40 bg-slate-900 animate-pulse rounded-3xl border border-slate-800" />
               ))}
             </div>
           ) : jobs.length === 0 ? (
-            <div className="bg-white p-12 text-center rounded-2xl border border-slate-200">
-              <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-              <p className="text-slate-700 font-bold text-lg">No matching jobs found</p>
-              <p className="text-slate-400 text-xs mt-1">Try adjusting your filter search criteria or reset filters.</p>
+            <div className="bg-slate-900 p-12 text-center rounded-3xl border border-slate-800 space-y-3">
+              <Briefcase className="w-12 h-12 text-slate-600 mx-auto" />
+              <h3 className="text-white font-bold text-lg">No opportunities available right now.</h3>
+              <p className="text-slate-400 text-xs">Try adjusting your filter search criteria or reset filters.</p>
               <button
                 onClick={handleClearFilters}
-                className="mt-4 px-4 py-2 bg-blue-50 text-blue-600 text-xs font-bold rounded-xl hover:bg-blue-100 transition-colors"
+                className="mt-2 px-5 py-2.5 bg-blue-600/20 text-blue-400 font-bold text-xs rounded-xl hover:bg-blue-600/30 transition-colors border border-blue-500/30"
               >
                 Clear All Filters
               </button>
@@ -201,58 +204,55 @@ const JobListings = () => {
               {jobs.map((job) => (
                 <div
                   key={job._id}
-                  className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-blue-300 shadow-xs hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
+                  className="bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-blue-500/40 shadow-sm transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group"
                 >
-                  <div className="space-y-2 max-w-xl">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md">
+                  <div className="space-y-2.5 max-w-xl">
+                    <div className="flex items-center space-x-2 text-xs">
+                      <span className="font-bold text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
                         {job.jobType}
                       </span>
-                      <span className="text-xs text-slate-400">
+                      <span className="text-slate-500">
                         Posted {new Date(job.createdAt).toLocaleDateString()}
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
                       <Link to={`/jobs/${job._id}`}>{job.title}</Link>
                     </h3>
 
-                    <p className="text-sm font-semibold text-slate-600 flex items-center space-x-2">
-                      <Building2 className="w-4 h-4 text-slate-400" />
+                    <p className="text-xs font-semibold text-slate-400 flex items-center space-x-2">
+                      <Building2 className="w-4 h-4 text-slate-500" />
                       <span>{job.companyName}</span>
-                      <span className="text-slate-300">•</span>
-                      <MapPin className="w-4 h-4 text-slate-400" />
+                      <span className="text-slate-700">•</span>
+                      <MapPin className="w-4 h-4 text-slate-500" />
                       <span>{job.location}</span>
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-1">
-                      <span className="flex items-center space-x-1">
-                        <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-slate-900 font-semibold">{job.salary}</span>
-                      </span>
-                      <span>Exp: {job.experience}</span>
-                      <span>Vacancies: {job.vacancies}</span>
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-300 pt-1">
+                      <span>💰 Salary: {job.salary || 'Competitive'}</span>
+                      <span>Exp: {job.experience || 'Not specified'}</span>
+                      <span>Vacancies: {job.vacancies || 1}</span>
                     </div>
 
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {job.skills?.map((skill, idx) => (
-                        <span key={idx} className="bg-slate-100 text-slate-700 text-xs px-2.5 py-0.5 rounded-md font-medium">
-                          {skill}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {job.skills?.map((sk, idx) => (
+                        <span key={idx} className="bg-slate-950 text-slate-300 text-[11px] px-2.5 py-0.5 rounded-lg border border-slate-800 font-medium">
+                          {sk}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex flex-col space-y-2 items-stretch md:items-end flex-shrink-0">
-                    <span className="text-xs text-slate-400 flex items-center space-x-1">
+                  <div className="flex flex-col space-y-3 items-stretch md:items-end flex-shrink-0">
+                    <span className="text-[11px] text-slate-500 flex items-center space-x-1">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Deadline: {new Date(job.deadline).toLocaleDateString()}</span>
                     </span>
                     <Link
                       to={`/jobs/${job._id}`}
-                      className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm hover:shadow transition-all text-center flex items-center justify-center space-x-1.5"
+                      className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/20 transition-all text-center flex items-center justify-center space-x-1.5"
                     >
-                      <span>View Details</span>
+                      <span>View Job</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>

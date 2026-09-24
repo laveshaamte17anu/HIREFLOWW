@@ -97,9 +97,15 @@ app.use('/api/interviews', require('./routes/interviewRoutes'));
 
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
+app.use('/api/candidate-leads', require('./routes/candidateLeadRoutes'));
+
+app.use('/api/employer-requests', require('./routes/employerRequestRoutes'));
+
+app.use('/api/consultancy-bookings', require('./routes/consultancyBookingRoutes'));
+
 /*
 |--------------------------------------------------------------------------
-| Health Check
+| Health Check & Browser DB Data Inspector
 |--------------------------------------------------------------------------
 */
 
@@ -109,6 +115,45 @@ app.get('/api/health', (req, res) => {
     message: 'HireFlow API is running smoothly',
     timestamp: new Date().toISOString(),
   });
+});
+
+app.get('/api/db-view', async (req, res) => {
+  try {
+    const User = require('./models/User');
+    const Job = require('./models/Job');
+    const Application = require('./models/Application');
+    const Interview = require('./models/Interview');
+    const Notification = require('./models/Notification');
+
+    const [users, jobs, applications, interviews, notifications] = await Promise.all([
+      User.find().select('-password'),
+      Job.find().populate('createdBy', 'name email'),
+      Application.find().populate('jobId', 'title companyName').populate('candidateId', 'name email'),
+      Interview.find(),
+      Notification.find().sort({ createdAt: -1 }).limit(20),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      counts: {
+        users: users.length,
+        jobs: jobs.length,
+        applications: applications.length,
+        interviews: interviews.length,
+        notifications: notifications.length,
+      },
+      data: {
+        users,
+        jobs,
+        applications,
+        interviews,
+        notifications,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
 /*

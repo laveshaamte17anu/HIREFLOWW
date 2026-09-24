@@ -134,6 +134,14 @@ const createJob = async (req, res) => {
       ? skills.split(',').map((s) => s.trim()).filter(Boolean)
       : [];
 
+    let parsedDeadline = new Date(deadline);
+    if (!isNaN(parsedDeadline.getTime())) {
+      parsedDeadline.setHours(23, 59, 59, 999);
+    } else {
+      parsedDeadline = new Date();
+      parsedDeadline.setDate(parsedDeadline.getDate() + 30);
+    }
+
     const job = await Job.create({
       title,
       companyName,
@@ -145,7 +153,7 @@ const createJob = async (req, res) => {
       skills: parsedSkills,
       education: education || "Bachelor's Degree",
       vacancies: vacancies ? parseInt(vacancies, 10) : 1,
-      deadline,
+      deadline: parsedDeadline,
       createdBy: req.user._id,
       status: status || 'Published',
     });
@@ -202,8 +210,13 @@ const updateJob = async (req, res) => {
         : job.skills;
     }
     job.education = education || job.education;
-    job.vacancies = vacancies !== undefined ? parseInt(vacancies, 10) : job.vacancies;
-    job.deadline = deadline || job.deadline;
+    if (deadline) {
+      const parsedDeadline = new Date(deadline);
+      if (!isNaN(parsedDeadline.getTime())) {
+        parsedDeadline.setHours(23, 59, 59, 999);
+        job.deadline = parsedDeadline;
+      }
+    }
     job.status = status || job.status;
 
     const updatedJob = await job.save();

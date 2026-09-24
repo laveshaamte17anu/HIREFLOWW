@@ -50,28 +50,28 @@ const CandidateNotifications = () => {
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-lg"></div>
-        <div className="h-64 bg-slate-200 animate-pulse rounded-2xl"></div>
+      <div className="space-y-4 max-w-4xl mx-auto">
+        <div className="h-8 w-48 bg-slate-900 animate-pulse rounded-lg"></div>
+        <div className="h-64 bg-slate-900 animate-pulse rounded-3xl border border-slate-800"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto text-slate-100 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2">
-            <Bell className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-black text-white tracking-tight flex items-center space-x-2">
+            <Bell className="w-6 h-6 text-blue-400" />
             <span>Notifications</span>
           </h1>
-          <p className="text-slate-500 text-xs mt-0.5">Stay updated on your application status changes and recruiter activity.</p>
+          <p className="text-slate-400 text-xs mt-0.5">Stay updated on application status updates and recruiter activity.</p>
         </div>
 
         {unreadCount > 0 && (
           <button
             onClick={handleMarkAllRead}
-            className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs rounded-xl transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-bold text-xs rounded-xl border border-blue-500/20 transition-colors flex items-center space-x-1.5 cursor-pointer"
           >
             <CheckCheck className="w-4 h-4" />
             <span>Mark All as Read</span>
@@ -80,10 +80,10 @@ const CandidateNotifications = () => {
       </div>
 
       {notifications.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-3xl border border-slate-200">
-          <Bell className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-          <h3 className="text-slate-900 font-bold text-base">No Notifications</h3>
-          <p className="text-slate-400 text-xs mt-1">You're all caught up! Important application updates will appear here.</p>
+        <div className="bg-slate-900 p-12 text-center rounded-3xl border border-slate-800 space-y-2">
+          <Bell className="w-12 h-12 text-slate-600 mx-auto mb-2" />
+          <h3 className="text-white font-bold text-base">No Notifications</h3>
+          <p className="text-slate-400 text-xs">You're all caught up! Important application updates will appear here.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -92,19 +92,19 @@ const CandidateNotifications = () => {
               key={item._id}
               className={`p-5 rounded-2xl border transition-all flex items-start justify-between gap-4 ${
                 item.isRead
-                  ? 'bg-white border-slate-200/80 text-slate-700'
-                  : 'bg-blue-50/60 border-blue-200 text-slate-900 shadow-xs'
+                  ? 'bg-slate-900 border-slate-800 text-slate-300'
+                  : 'bg-slate-900 border-blue-500/40 text-white shadow-md'
               }`}
             >
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
-                  <h3 className="font-bold text-sm">{item.title}</h3>
+                  <h3 className="font-bold text-sm text-white">{item.title}</h3>
                   {!item.isRead && (
-                    <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                    <span className="w-2 h-2 rounded-full bg-blue-500"></span>
                   )}
                 </div>
-                <p className="text-xs text-slate-600">{item.message}</p>
-                <p className="text-[10px] text-slate-400 flex items-center space-x-1 pt-1">
+                <p className="text-xs text-slate-300">{item.message}</p>
+                <p className="text-[10px] text-slate-500 flex items-center space-x-1 pt-1">
                   <Clock className="w-3 h-3" />
                   <span>{new Date(item.createdAt).toLocaleString()}</span>
                 </p>
@@ -113,7 +113,7 @@ const CandidateNotifications = () => {
               {!item.isRead && (
                 <button
                   onClick={() => handleMarkAsRead(item._id)}
-                  className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+                  className="p-2 text-slate-500 hover:text-blue-400 transition-colors cursor-pointer"
                   title="Mark read"
                 >
                   <Check className="w-4 h-4" />

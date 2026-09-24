@@ -85,82 +85,82 @@ const JobEdit = () => {
   if (loading) {
     return (
       <div className="space-y-4 max-w-4xl mx-auto">
-        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-lg"></div>
-        <div className="h-64 bg-slate-200 animate-pulse rounded-2xl"></div>
+        <div className="h-8 w-48 bg-slate-900 animate-pulse rounded-lg"></div>
+        <div className="h-64 bg-slate-900 animate-pulse rounded-3xl border border-slate-800"></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 text-slate-100 font-sans">
       <button
         onClick={() => navigate('/admin/jobs')}
-        className="inline-flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-blue-600"
+        className="inline-flex items-center space-x-2 text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to My Jobs</span>
       </button>
 
-      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+      <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl space-y-6">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Edit Job Listing</h1>
-          <p className="text-slate-500 text-xs mt-0.5">Update specifications, vacancies, or deadline date.</p>
+          <h1 className="text-2xl font-black text-white tracking-tight">Edit Job Listing</h1>
+          <p className="text-slate-400 text-xs mt-0.5">Update specifications, vacancies, or deadline date.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6 text-xs font-medium">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Job Title *</label>
+              <label className="block text-slate-300 font-bold mb-1">Job Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Company Name *</label>
+              <label className="block text-slate-300 font-bold mb-1">Company Name *</label>
               <input
                 type="text"
                 required
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Location *</label>
+              <label className="block text-slate-300 font-bold mb-1">Location *</label>
               <input
                 type="text"
                 required
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Salary Range *</label>
+              <label className="block text-slate-300 font-bold mb-1">Salary Range *</label>
               <input
                 type="text"
                 required
                 value={salary}
                 onChange={(e) => setSalary(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Job Type</label>
+              <label className="block text-slate-300 font-bold mb-1">Job Type</label>
               <select
                 value={jobType}
                 onChange={(e) => setJobType(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               >
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
@@ -174,66 +174,66 @@ const JobEdit = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Experience Required</label>
+              <label className="block text-slate-300 font-bold mb-1">Experience Required</label>
               <input
                 type="text"
                 value={experience}
                 onChange={(e) => setExperience(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Required Education</label>
+              <label className="block text-slate-300 font-bold mb-1">Required Education</label>
               <input
                 type="text"
                 value={education}
                 onChange={(e) => setEducation(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Open Vacancies</label>
+              <label className="block text-slate-300 font-bold mb-1">Open Vacancies</label>
               <input
                 type="number"
                 min="1"
                 value={vacancies}
                 onChange={(e) => setVacancies(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Required Skills (comma separated) *</label>
+            <label className="block text-slate-300 font-bold mb-1">Required Skills (comma separated) *</label>
             <input
               type="text"
               required
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Application Deadline *</label>
+              <label className="block text-slate-300 font-bold mb-1">Application Deadline *</label>
               <input
                 type="date"
                 required
                 value={deadline}
                 onChange={(e) => setDeadline(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Posting Status</label>
+              <label className="block text-slate-300 font-bold mb-1">Posting Status</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white"
               >
                 <option value="Published">Published</option>
                 <option value="Draft">Draft</option>
@@ -244,28 +244,28 @@ const JobEdit = () => {
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Full Job Description *</label>
+            <label className="block text-slate-300 font-bold mb-1">Full Job Description *</label>
             <textarea
               rows="6"
               required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl outline-none focus:border-blue-500 text-xs text-white resize-none"
             ></textarea>
           </div>
 
-          <div className="pt-4 flex justify-end space-x-3 border-t border-slate-100">
+          <div className="pt-4 flex justify-end space-x-3 border-t border-slate-800">
             <button
               type="button"
               onClick={() => navigate('/admin/jobs')}
-              className="px-5 py-2.5 font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              className="px-5 py-2.5 font-bold text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/30 transition-all flex items-center space-x-2"
+              className="px-8 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/30 transition-all flex items-center space-x-2 cursor-pointer"
             >
               <Save className="w-4 h-4" />
               <span>{submitting ? 'Saving Changes...' : 'Save Job Changes'}</span>
